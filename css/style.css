@@ -1,7 +1,8 @@
-body {
+body{
 	margin: 10px;
-	padding: 10px;
-	background: #000;
-	font-weight: 400;
-	font-size: 2rem;
+	text-align: center;
+}
+canvas {
+	background-image: url(../img/sky.png);
+	border: 1px solid black;
 }
