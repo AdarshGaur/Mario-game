@@ -3,6 +3,5 @@ body{
 	text-align: center;
 }
 canvas {
-	background-image: url(../img/sky.png);
 	border: 1px solid black;
 }
