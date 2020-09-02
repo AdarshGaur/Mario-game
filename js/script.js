@@ -6,9 +6,12 @@ var player = {
 	ySprite: 0,
 	width: 30,
 	height: 50,
+	jumping: false,
+	faceLeft: false,
+	faceRight: true,
 	x: 224,
 	y: 392,
-	speedX: 3,
+	speedX: 0,
 	speedY: 3,
 	gravity : .05,
 	gravitySpeed: 0
@@ -34,23 +37,58 @@ function updateGameArena(){
 	init();
 	/// right + left + jump movements
 	if(moves[37]){//left
-		player.x -= player.speedX;
+		player.speedX -= 0.5;
+		player.faceLeft = true;
+		player.faceRight = false;
+		// player.x += player.speedX;
 	 	player.xSprite = 290;
+
 	 	// console.log(player.x);
 	}
 	if(moves[39]){//right
-		player.x += player.speedX;
+		player.speedX += 0.5;
+		player.faceRight = true;
+		player.faceLeft = false;
+		// player.x += player.speedX;
 		player.xSprite = 30;
 	}
-	if(moves[38]){//up
-		player.gravitySpeed += player.gravity;
-		console.log(player.gravitySpeed);
-		player.y -= player.speedY + player.gravitySpeed;
+	if(moves[38] && player.jumping==false){//jump
+		// player.gravitySpeed += player.gravity;
+		// console.log(player.gravitySpeed);
+		player.speedY -= 25;
+		player.jumping = true;
+		// player.y -= player.speedY + player.gravitySpeed;
 	}
-	if(moves[40]){//down
-	 	player.y += player.speedY + player.gravitySpeed;
-	 	// console.log(player.y);
+	// if(moves[40]){//down
+	//  	player.y += player.speedY + player.gravitySpeed;
+	//  	// console.log(player.y);
+	// }
+
+	player.speedY += 1.5;//for gravity
+	player.x += player.speedX;
+	player.y += player.speedY;
+	player.speedX *= 0.9;//friction
+	player.speedY *= 0.9;//friction
+
+	//for stoping mario on the floor
+	if(player.y > 392){
+		player.jumping = false;
+		player.y = 392;
+		player.speedY = 0;
 	}
+
+	/// for changinf his running sprite && need optimization in this later !
+	if(player.speedX < 0.5 && player.speedX >= 0){
+		if(player.faceRight){
+			player.xSprite = 0;
+		}
+	}
+	if(player.speedX > -0.5 && player.speedX <= 0){
+		if(player.faceLeft){
+			player.xSprite = 255;
+		}
+	}
+
 	mariodraw(player.xSprite, player.ySprite, player.width, player.height, player.x, player.y, player.width, player.height);
 	requestAnimationFrame(updateGameArena);
 }
