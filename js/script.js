@@ -10,9 +10,9 @@ var player = {
 	faceLeft: false,
 	faceRight: true,
 	x: 224,
-	y: 392,
+	y: 292,//392
 	speedX: 0,
-	speedY: 3,
+	speedY: 0,
 	gravity : .05,
 	gravitySpeed: 0
 }
@@ -40,29 +40,18 @@ function updateGameArena(){
 		player.speedX -= 0.5;
 		player.faceLeft = true;
 		player.faceRight = false;
-		// player.x += player.speedX;
 	 	player.xSprite = 290;
-
-	 	// console.log(player.x);
 	}
 	if(moves[39]){//right
 		player.speedX += 0.5;
 		player.faceRight = true;
 		player.faceLeft = false;
-		// player.x += player.speedX;
 		player.xSprite = 30;
 	}
 	if(moves[38] && player.jumping==false){//jump
-		// player.gravitySpeed += player.gravity;
-		// console.log(player.gravitySpeed);
 		player.speedY -= 25;
 		player.jumping = true;
-		// player.y -= player.speedY + player.gravitySpeed;
 	}
-	// if(moves[40]){//down
-	//  	player.y += player.speedY + player.gravitySpeed;
-	//  	// console.log(player.y);
-	// }
 
 	player.speedY += 1.5;//for gravity
 	player.x += player.speedX;
@@ -75,6 +64,13 @@ function updateGameArena(){
 		player.jumping = false;
 		player.y = 392;
 		player.speedY = 0;
+		/// for changing back mario's sprite when touches ground
+		if(player.faceRight && player.speedX >= 0 && player.speedX < 0.5){//right
+			player.xSprite = 0;
+		}
+		if(player.faceLeft && player.speedX > -0.5 && player.speedX <= 0){//left
+			player.xSprite = 255;
+		}
 	}
 
 	/// for changinf his running sprite && need optimization in this later !
@@ -86,6 +82,15 @@ function updateGameArena(){
 	if(player.speedX > -0.5 && player.speedX <= 0){
 		if(player.faceLeft){
 			player.xSprite = 255;
+		}
+	}
+
+	///for changing sprite while jumping
+	if(player.jumping){
+		if(player.faceRight){
+			player.xSprite = 95;
+		}else if(player.faceLeft){
+			player.xSprite = 65;
 		}
 	}
 
@@ -103,34 +108,8 @@ window.addEventListener('keyup', function (event) {
 	moves[event.keyCode] = (event.type == "keydown");            
 })
 
-	// // event.preventDefault() // stop the button from scrolling the page
-	// if(event.keyCode == 37){// left
-	// 	// drawBackground();
-	// 	player.x -= 10;
-	// 	player.xSprite = 290;
-	// 	console.log(player.x);
-	// }
-	// if(event.keyCode == 39){//right
-	// 	player.x += 10;
-	// 	player.xSprite = 30;
-	// }
-	// if(event.keyCode == 38){//up
-	// 	player.y -= 30;
-	// }
-	// if(event.keyCode == 40){//down
-	// 	player.y += 30;
-	// 	console.log(player.y);
-	// }
 
 requestAnimationFrame(updateGameArena);
-
-// window.addEventListener('keydown', function (e) {
-//             myGameArea.keys = (myGameArea.keys || []);
-//             myGameArea.keys[e.keyCode] = (e.type == "keydown");
-//         })
-//         window.addEventListener('keyup', function (e) {
-//             myGameArea.keys[e.keyCode] = (e.type == "keydown");            
-//         })
 
 
 // for drawing mario from sprite
