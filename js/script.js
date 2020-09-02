@@ -95,6 +95,7 @@ function updateGameArena(){
 	}
 
 	mariodraw(player.xSprite, player.ySprite, player.width, player.height, player.x, player.y, player.width, player.height);
+
 	requestAnimationFrame(updateGameArena);
 }
 
@@ -123,8 +124,8 @@ function mariodraw(xSprite, ySprite, wSprite, hSprite, x_pos, y_pos, width, heig
 //function for drawing floor and sky
 function init(){
 	//for sky
-	for(var i=0; i<80; i++){
-		for(var j=0; j<30; j++){
+	for(var i=0; i<75; i++){
+		for(var j=0; j<33; j++){
 			context.drawImage(tiles, 48, 336, 16, 16
 									, i*16, j*16, 16, 16);
 		}
