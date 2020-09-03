@@ -9,7 +9,7 @@ var player = {
 	jumping: false,
 	faceLeft: false,
 	faceRight: true,
-	x: 224,
+	x: 0,//224
 	y: 292,//392
 	speedX: 0,
 	speedY: 0,
@@ -17,8 +17,21 @@ var player = {
 	gravitySpeed: 0
 }
 
+var countL = 1;
+var countR = 1;
+
+var cameraX = player.x;
+
+player.x = 224;
+
+///for storing key presses
 var moves = [];
-// width or columns = 120
+
+
+/////////////////////////////////
+///////LAYOUT OF WHOLE LEVEL ////
+/////////////////////////////////
+// width or columns = 120;
 //height or rows = 15;
 var map =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,5,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -78,25 +91,42 @@ marioImage.onload = function(){
 
 function updateGameArena(){
 	init();
+	
 	/// right + left + jump movements
 	if(moves[37]){//left
 		player.speedX -= 0.5;
 		player.faceLeft = true;
 		player.faceRight = false;
-	 	player.xSprite = 290;
-	 	//////////////////////////////////////////////////
-	 	//////// remove those roller skate moves /////////
-	 	//////////////////////////////////////////////////
+
+		////////for moving effect
+		countL++;
+	 	if(countL >= 8){    
+	 		player.xSprite = 255;
+	 	}else {
+	 		player.xSprite = 290;
+	 	}
+	 	if(countL == 16){
+	 		countL = 0;
+	 	}
 	}
+
 	if(moves[39]){//right
 		player.speedX += 0.5;
 		player.faceRight = true;
 		player.faceLeft = false;
-		player.xSprite = 30;
-		//////////////////////////////////////////////////
-	 	//////// remove those roller skate moves /////////
-	 	//////////////////////////////////////////////////
+		
+		////////for moving effect
+		countR++;
+		if(countR >= 8){
+	 		player.xSprite = 0;
+	 	}else{
+	 		player.xSprite = 30;
+	 	}
+	 	if(countR == 16){
+	 		countR=0;
+	 	}
 	}
+
 	if(moves[38] && player.jumping==false){//jump
 		player.speedY -= 25;
 		player.jumping = true;
@@ -122,7 +152,7 @@ function updateGameArena(){
 		}
 	}
 
-	/// for changinf his running sprite && need optimization in this later !
+	/// for changing back mario's standing sprite && need optimization in this later !
 	if(player.speedX < 0.5 && player.speedX >= 0){
 		if(player.faceRight){
 			player.xSprite = 0;
@@ -167,6 +197,7 @@ function mariodraw(xSprite, ySprite, wSprite, hSprite, x_pos, y_pos, width, heig
 	context.drawImage(marioImage, xSprite, ySprite, wSprite, hSprite
 							, x_pos	, y_pos, width, height);
 	console.log("heelllooooo, i'm v good rn");
+	// console.log(camera.x);
 }
 
 
