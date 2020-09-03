@@ -1,4 +1,12 @@
-//
+var btn = document.getElementById('start-btn');
+var startScreen = document.getElementById('start-screen');
+btn.addEventListener("click", function(){ 
+	startScreen.style.display="none";
+	startGame(); 
+});
+
+
+function startGame(){
 var canvas = document.getElementById('myCanvas');
 var context = canvas.getContext('2d');
 var player = {
@@ -32,9 +40,27 @@ marioImage.src = '../img/mario-sprites.png';
 marioImage.onload = function(){
 	mariodraw(0, 0, 30, 50, player.x, player.y, 30, 50);
 }
-
+//sound function
+function sound(src) {
+	this.sound = document.createElement("audio");
+	this.sound.src = src;
+	this.sound.setAttribute("preload", "auto");
+	this.sound.setAttribute("controls", "none");
+	this.sound.style.display = "none";
+	document.body.appendChild(this.sound);
+	this.play = function(){
+	  this.sound.play();
+	}
+	this.stop = function(){
+	  this.sound.pause();
+	}
+  }
+  bgSound = new sound("../audio/bgsound.mp3");
+  jumpSound = new sound("../audio/jump.wav");
+  
 function updateGameArena(){
 	init();
+	bgSound.play();
 	/// right + left + jump movements
 	if(moves[37]){//left
 		player.speedX -= 0.5;
@@ -50,6 +76,7 @@ function updateGameArena(){
 	}
 	if(moves[38] && player.jumping==false){//jump
 		player.speedY -= 25;
+		jumpSound.play();
 		player.jumping = true;
 	}
 
@@ -137,7 +164,7 @@ function init(){
 						   i*32, 470, 32, 32);
 	}
 }
-
+}
 
 
 
