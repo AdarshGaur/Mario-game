@@ -1,2 +1,2 @@
-# Mario-game
-Mario game using vanilla js
+# Basic Mario-game
+Basic Mario game using vanilla js
