@@ -1,4 +1,8 @@
-///////
+//////////////////////////////
+//////SCRIPT.JS//////////////
+////////////////////////////
+
+///mario or player object
 var player = {
 	xSprite: 0,
 	ySprite: 0,
@@ -68,8 +72,9 @@ var startScreen = document.getElementById('start-screen');
 
 btn.addEventListener("click", function(){ 
 	startScreen.style.display="none";
-	startGame();
+	document.getElementById('gameScore').style.display = "block";
 	document.getElementById('instructions').style.display="block";
+	startGame();
 });
 
 
@@ -199,6 +204,8 @@ function startGame(){
 
 		////////game over;
 		if(player.x > 3712){
+			bgSound.stop();
+			won.play();
 			//changing the sprite
 			player.xSprite = 385;
 			
@@ -209,7 +216,7 @@ function startGame(){
 				player.speedY *= 0.9;
 			}
 			if(player.y > 335){
-				if(confirm("WANT TO PLAY AGAIN")){
+				if(confirm("YOUR SCORE: "+score+".\nWANNA PLAY AGAIN ?")){
 					location.reload();
 				}
 				else{
@@ -218,7 +225,9 @@ function startGame(){
 			}
 		}
 		if(player.y >= 418){
-			if(confirm("YOU LOSE! WANT TO LOSE AGAIN?")){
+			bgSound.stop();
+			lose.play();
+			if(confirm("LOSER,  YOUR SCORE: "+score +".\nWANNA LOSE AGAIN ?")){
 				location.reload();
 			}else {
 				window.close();
@@ -248,6 +257,9 @@ function startGame(){
 	}
 	bgSound = new sound("../audio/bgsound.mp3");
 	jumpSound = new sound("../audio/jump.wav");
+	coinCollect = new sound("../audio/coin.wav");
+	won = new sound("../audio/stage-clear.wav");
+	lose = new sound("../audio/mario-die.wav");
 
 
 	//keymovements
@@ -417,8 +429,11 @@ function startGame(){
 				player.y = player.previousY;
 				if(map[map_index-130]==2){
 					score++;
+					document.getElementById('scoreValue').innerHTML = score;
+					
 					//////add coin collection sound here
-					///change the block into normal block
+					coinCollect.play();
+					///change the block into used block
 					let m = map_index-130;
 					context.drawImage(tiles, 48, 0, 16, 16
 				 									, (m%130)*32, (Math.floor(m/130))*32, 32, 32);
@@ -438,7 +453,6 @@ function startGame(){
 		}
 		
 	}
-
 
 }
 
