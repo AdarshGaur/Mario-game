@@ -4,7 +4,7 @@ var context = canvas.getContext('2d');
 var player = {
 	xSprite: 0,
 	ySprite: 0,
-	width: 30,
+	width: 32,
 	height: 50,
 	jumping: false,
 	faceLeft: false,
@@ -12,13 +12,19 @@ var player = {
 	x: 224,//224
 	y: 292,//392
 	speedX: 0,
-	speedY: 0
+	speedY: 0,
+	previousX: 224,
+	previousY: 292
 }
 
 var countL = 1;
 var countR = 1;
 
 var camera = 700;
+
+var indexX = 0;
+var indexY = 0;
+var map_index = 0;
 
 ///for storing key presses
 var moves = [];
@@ -79,7 +85,7 @@ marioImage.onload = function(){
 
 function updateGameArena(){
 	init();
-
+	
 	/// right + left + jump movements
 	if(moves[37]){//left
 		player.speedX -= 0.5;
@@ -125,25 +131,28 @@ function updateGameArena(){
 		//context.translate(-50, 0);
 	}
 
-	player.speedY += 1.2;//for gravity
+	player.previousX = player.x;
+	player.previousY = player.y;
+
+	player.speedY += 1;//for gravity
 	player.x += player.speedX;
 	player.y += player.speedY;
 	player.speedX *= 0.9;//friction
 	player.speedY *= 0.9;//friction
 
 	//for stoping mario on the floor
-	if(player.y > 370){
-		player.jumping = false;
-		player.y = 370;
-		player.speedY = 0;
-		/// for changing back mario's sprite when touches ground
-		if(player.faceRight && player.speedX >= 0 && player.speedX < 0.5){//right
-			player.xSprite = 0;
-		}
-		if(player.faceLeft && player.speedX > -0.5 && player.speedX <= 0){//left
-			player.xSprite = 255;
-		}
-	}
+	// if(player.y > 370){
+	// 	player.jumping = false;
+	// 	player.y = 370;
+	// 	player.speedY = 0;
+	// 	/// for changing back mario's sprite when touches ground
+	// 	if(player.faceRight && player.speedX >= 0 && player.speedX < 0.5){//right
+	// 		player.xSprite = 0;
+	// 	}
+	// 	if(player.faceLeft && player.speedX > -0.5 && player.speedX <= 0){//left
+	// 		player.xSprite = 255;
+	// 	}
+	// }
 
 	/// for changing back mario's standing sprite && need optimization in this later !
 	if(player.speedX < 0.5 && player.speedX >= 0){
@@ -173,7 +182,7 @@ function updateGameArena(){
 		context.translate(-5, 0);
 		camera += 5;
 	}
-
+	///for keeping mario in frame
 	if(player.x < camera-700){
 		player.x = camera-700;
 	}
@@ -181,31 +190,117 @@ function updateGameArena(){
 		player.x = 3724;
 	}
 
-	mariodraw(player.xSprite, player.ySprite, player.width, player.height, player.x, player.y, player.width, player.height);
+
+	//////////////////////////////////
+	///////////COLLISION//////////////
+	//////////////////////////////////
+
+
+	collisionCheck();
+
+	indexX = Math.floor((player.x)/ 32);
+	indexY = Math.floor((player.y+20)/ 32);
+	map_index = (indexY*130)+(indexX);
+
+
+	console.log(map[map_index]);
+	mariodraw(player.xSprite, player.ySprite, 30, player.height, player.x, player.y, player.width, player.height);
 
 	requestAnimationFrame(updateGameArena);
 }
 
-//keymovements
+//key movements
 window.addEventListener('keydown', function(event){
 	moves = (moves || []);
     moves[event.keyCode] = (event.type == "keydown");
     //
 })
 window.addEventListener('keyup', function (event) {
-	moves[event.keyCode] = (event.type == "keydown");            
+	moves[event.keyCode] = (event.type == "keydown");
 })
 
 
 requestAnimationFrame(updateGameArena);
 
+////////////////////////////
+/////COLLISION FUNCTION/////
+////////////////////////////
+function collisionCheck(){
+	//////////down
+	//////////right
+	//////////left
+	///////////up
 
-// for drawing mario from sprite
-function mariodraw(xSprite, ySprite, wSprite, hSprite, x_pos, y_pos, width, height){
-	context.drawImage(marioImage, xSprite, ySprite, wSprite, hSprite
-							, x_pos	, y_pos, width, height);
-	console.log("heelllooooo, i'm v good rn");
-	// console.log(camera.x);
+	//for finding the index of mario
+	// indexX = Math.floor((player.x)/ 32);
+	// indexY = Math.floor((player.y+18) / 32);
+	// map_index = (indexY*130)+(indexX);
+	
+	//check right collision
+	indexX = Math.floor((player.x+32)/ 32);
+	indexY = Math.floor((player.y+20)/ 32);
+	map_index = (indexY*130)+(indexX);
+	if(map[map_index]!=0){
+		player.x = player.previousX;
+		player.speedX = 0;
+	}
+
+	//////////////////////////////////
+	///all posible bottom collision///
+	//////////////////////////////////
+	if(player.x > player.previousX){///right moving bottom collision
+		indexX = Math.floor((player.x+10)/ 32);
+		indexY = Math.floor((player.y+18)/ 32);
+		map_index = (indexY*130)+(indexX);
+		if(map[map_index+130]!=0){
+			player.y = player.previousY;
+			player.jumping = false;
+			player.speedY = 0;
+		}
+		///////can change player.speedX condition with player.x < or > player.previousX
+	}else if(player.speedX < -0.1){////left moving bottom collision
+		indexX = Math.ceil((player.x-10)/ 32);
+		indexY = Math.floor((player.y+18)/ 32);
+		map_index = (indexY*130)+(indexX);
+		if(map[map_index+130]!=0){
+			player.y = player.previousY;
+			player.jumping = false;
+			player.speedY = 0;
+		}
+	}else {
+		////check standing bottom collision
+		indexX = Math.floor((player.x)/ 32);
+		indexY = Math.floor((player.y+18)/ 32);
+		map_index = (indexY*130)+(indexX);
+		if(map[map_index+130]!=0){
+			player.y = player.previousY;
+			player.jumping = false;
+			player.speedY = 0;
+		}
+	}
+
+
+
+	////check up collision
+	indexX = Math.ceil((player.x-10)/ 32);
+	indexY = Math.floor((player.y+18)/ 32);
+	map_index = (indexY*130)+(indexX);
+	if(map[map_index-130]!=0 && player.speedY < 0){
+		// if(player.y < ){
+
+		// }
+		player.y = player.previousY;
+	}
+
+	/// check left collision
+	indexX = Math.floor((player.x)/ 32);
+	indexY = Math.floor((player.y + 18) / 32);
+	map_index = (indexY*130)+(indexX);
+	if(map[map_index]!=0){
+		player.x = player.previousX;
+		player.speedX = 0;
+	}
+	
 }
 
 
@@ -243,14 +338,16 @@ function init(){
 				context.drawImage(tiles, 257, 145, 15, 15
 	 									, x*32, y*32, 32, 32);//16*9 = 144
 															////16*16 = 256
+				///making flag stick to the pole
+				if(i == 247){
+					context.drawImage(flagImage, 0, 0, 32, 32
+	 									, ((x-1)*32)+10, y*32, 32, 32);
+				}
 				break;
 
 			case 6 : // flag
 				//first draw sky behind flag
 				context.drawImage(tiles, 48, 336, 16, 16
-	 									, x*32, y*32, 32, 32);
-				console.log("sky done");
-				context.drawImage(flagImage, 0, 0, 32, 32
 	 									, x*32, y*32, 32, 32);
 				break;
 
@@ -298,6 +395,14 @@ function init(){
 	// }
 }
 
+
+// for drawing mario from sprite
+function mariodraw(xSprite, ySprite, wSprite, hSprite, x_pos, y_pos, width, height){
+	context.drawImage(marioImage, xSprite, ySprite, wSprite, hSprite
+							, x_pos	, y_pos, width, height);
+	console.log("heelllooooo, i'm v good rn");
+	// console.log(camera.x);
+}
 
 
 
