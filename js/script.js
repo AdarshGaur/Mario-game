@@ -1,14 +1,21 @@
 var btn = document.getElementById('start-btn');
 var startScreen = document.getElementById('start-screen');
 btn.addEventListener("click", function(){ 
-	startScreen.style.display="none";
-	startGame(); 
+startScreen.style.display="none";
+startGame();
+document.getElementById('instructions').style.display="block";
 });
 
 
 function startGame(){
-var canvas = document.getElementById('myCanvas');
+var body = document.querySelector('body');
+var canvas = document.createElement("canvas");
+body.appendChild(canvas);
+canvas.width = 1200;
+canvas.height = 500;
 var context = canvas.getContext('2d');
+context.font ='20px mario';
+context.fillStyle = '#fff';
 var player = {
 	xSprite: 0,
 	ySprite: 0,
@@ -24,7 +31,7 @@ var player = {
 	gravity : .05,
 	gravitySpeed: 0
 }
-
+var gameScore = 0;
 var moves = [];
 
 //loading tile spritesheet
@@ -120,7 +127,7 @@ function updateGameArena(){
 			player.xSprite = 65;
 		}
 	}
-
+	
 	mariodraw(player.xSprite, player.ySprite, player.width, player.height, player.x, player.y, player.width, player.height);
 	requestAnimationFrame(updateGameArena);
 }
@@ -154,6 +161,8 @@ function init(){
 		for(var j=0; j<30; j++){
 			context.drawImage(tiles, 48, 336, 16, 16
 									, i*16, j*16, 16, 16);
+									
+		context.fillText("score :" + gameScore,30,30);
 		}
 	}
 	///for ground
@@ -164,6 +173,8 @@ function init(){
 						   i*32, 470, 32, 32);
 	}
 }
+
+
 }
 
 
