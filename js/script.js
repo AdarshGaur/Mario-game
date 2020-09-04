@@ -17,7 +17,7 @@ var player = {
 
 var uppercollisionY;
 var i=1;
-
+var score = 0;
 var countL = 1;
 var countR = 1;
 
@@ -28,6 +28,39 @@ var map_index = 0;
 
 ///for storing key presses
 var moves = [];
+
+///////LAYOUT////
+// width or columns = 130;
+//height or rows = 15;
+var map =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,5,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0, 
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,2,3,2,3,3,2,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,2,3,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,3,2,3,2,3,2,3,2,3,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
+			0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,
+			1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+			1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+
+/*
+0 = sky;
+1 = groundtile;
+2 = coin block;
+3 = powerup;
+4 = stairblock;
+5 = pole;
+6 = flag;
+7 = pipeLeft;
+8 = pipeRight;
+9 = pipeUpperLeft;
+10 = pipeUpperRight;
+*/
 
 
 var btn = document.getElementById('start-btn');
@@ -50,40 +83,7 @@ function startGame(){
 
 	context.font ='20px mario';
 	context.fillStyle = '#fff';
-
-
-	///////LAYOUT////
-	// width or columns = 130;
-	//height or rows = 15;
-	var map =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,5,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0, 
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,2,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,2,2,2,3,2,2,2,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,
-				0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,0,0,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,
-				1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-				1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-
-	/*
-	0 = sky;
-	1 = groundtile;
-	2 = coin block;
-	3 = powerup;
-	4 = stairblock;
-	5 = pole;
-	6 = flag;
-	7 = pipeLeft;
-	8 = pipeRight;
-	9 = pipeUpperLeft;
-	10 = pipeUpperRight;
-	*/
+	
 
 	var flagImage = new Image();
 	flagImage.src = '../img/flag.png';
@@ -95,7 +95,7 @@ function startGame(){
 	var tiles = new Image();
 	tiles.src = '../img/spritesheet.png';
 	tiles.onload = function(){
-		init();
+		initialdraw();
 	}
 
 	/// loading mario spritesheet
@@ -106,7 +106,7 @@ function startGame(){
 	}
 
 	function updateGameArena(){
-		init();
+		initialdraw();
 		bgSound.play();
 		/// right + left + jump movements
 		if(moves[37]){//left
@@ -145,7 +145,7 @@ function startGame(){
 
 		if(moves[38] && player.jumping==false){//jump
 			player.speedY -= 25;
-			jumpSound.play();
+			jumpSound.play(); ////need debugging with background sound
 			player.jumping = true;
 		}
 
@@ -163,21 +163,8 @@ function startGame(){
 		player.speedX *= 0.9;//friction
 		player.speedY *= 0.9;//friction
 
-		//for stoping mario on the floor
-		// if(player.y > 370){
-		// 	player.jumping = false;
-		// 	player.y = 370;
-		// 	player.speedY = 0;
-		// 	/// for changing back mario's sprite when touches ground
-		// 	if(player.faceRight && player.speedX >= 0 && player.speedX < 0.5){//right
-		// 		player.xSprite = 0;
-		// 	}
-		// 	if(player.faceLeft && player.speedX > -0.5 && player.speedX <= 0){//left
-		// 		player.xSprite = 255;
-		// 	}
-		// }
 
-		/// for changing back mario's standing sprite && need optimization in this later !
+		/// for changing back mario's standing sprite
 		if(player.speedX < 0.5 && player.speedX >= 0){
 			if(player.faceRight){
 				player.xSprite = 0;
@@ -198,8 +185,6 @@ function startGame(){
 			}
 		}
 
-		//var camera = 700;
-
 		/// for moving the screen window left 
 		if(player.x > camera && camera<3590){
 			context.translate(-5, 0);
@@ -209,57 +194,41 @@ function startGame(){
 		if(player.x < camera-700){
 			player.x = camera-700;
 		}
-		// if(player.x > 3724){
-		// 	player.x = 3724;
-		// }
 
-
-		//////////////////////////////////
-		///////////COLLISION//////////////
-		//////////////////////////////////
 		collisionCheck();
 
 		////////game over;
 		if(player.x > 3712){
-			gameoverWIN();
+			//changing the sprite
+			player.xSprite = 385;
+			
+			player.x = 3744;
+			if(player.y<=335){
+				player.speedY += 1;
+				player.y += player.speedY;
+				player.speedY *= 0.9;
+			}
+			if(player.y > 335){
+				if(confirm("WANT TO PLAY AGAIN")){
+					location.reload();
+				}
+				else{
+					window.close();
+				}
+			}
 		}
-		if(player.y == 475){
-			gameoverLOSE();
+		if(player.y >= 418){
+			if(confirm("YOU LOSE! WANT TO LOSE AGAIN?")){
+				location.reload();
+			}else {
+				window.close();
+			}
 		}
 
 		mariodraw(player.xSprite, player.ySprite, 32, player.height, player.x, player.y, player.width, player.height);
 
 		requestAnimationFrame(updateGameArena);
 
-	}
-
-	///game over function
-	function gameoverWIN(){
-		// var slide = setInterval(gameover, );
-		//changing the sprite
-		player.xSprite = 385;
-		player.x = 3744;
-		if(player.y<=335){
-			player.speedY += 1;
-			player.y += player.speedY;
-			player.speedY *= 0.9;
-		}
-		if(player.y > 335){
-			if(confirm("WANT TO PLAY AGAIN")){
-				startGame();
-			}
-			else{
-				window.close();
-			}
-		}
-	}
-
-	function gameoverLOSE(){
-		if(confirm("YOU LOSE! WANT TO LOSE AGAIN?")){
-			startGame();
-		}else {
-			window.close();
-		}
 	}
 
 	//sound function
@@ -294,91 +263,9 @@ function startGame(){
 
 	requestAnimationFrame(updateGameArena);
 
-	////////////////////////////
-	/////COLLISION FUNCTION/////
-	////////////////////////////
-	function collisionCheck(){
-		//////////down
-		//////////right
-		//////////left
-		///////////up
-
-		//for finding the index of mario
-		// indexX = Math.floor((player.x)/ 32);
-		// indexY = Math.floor((player.y+18) / 32);
-		// map_index = (indexY*130)+(indexX);
-		
-		//check right collision
-		indexX = Math.floor((player.x+32)/ 32);
-		indexY = Math.floor((player.y+20)/ 32);
-		map_index = (indexY*130)+(indexX);
-		if(map[map_index]!=0 && map[map_index]!=5){
-			player.x = player.previousX;
-			player.speedX = 0;
-		}
-
-		//////////////////////////////////
-		///all posible bottom collision///
-		//////////////////////////////////
-		if(player.x > player.previousX){///right moving bottom collision
-			indexX = Math.floor((player.x+10)/ 32);
-			indexY = Math.floor((player.y+18)/ 32);
-			map_index = (indexY*130)+(indexX);
-			if(map[map_index+130]!=0){
-				player.y = player.previousY;
-				player.jumping = false;
-				player.speedY = 0;
-			}
-			///////can change player.speedX condition with player.x < or > player.previousX
-		}else if(player.speedX < -0.1){////left moving bottom collision
-			indexX = Math.ceil((player.x-10)/ 32);
-			indexY = Math.floor((player.y+18)/ 32);
-			map_index = (indexY*130)+(indexX);
-			if(map[map_index+130]!=0){
-				player.y = player.previousY;
-				player.jumping = false;
-				player.speedY = 0;
-			}
-		}else {
-			////check standing bottom collision
-			indexX = Math.floor((player.x)/ 32);
-			indexY = Math.floor((player.y+18)/ 32);
-			map_index = (indexY*130)+(indexX);
-			if(map[map_index+130]!=0){
-				player.y = player.previousY;
-				player.jumping = false;
-				player.speedY = 0;
-			}
-		}
-
-		////check up collision
-		indexX = Math.ceil((player.x-10)/ 32);
-		indexY = Math.floor((player.y+18)/ 32);
-		map_index = (indexY*130)+(indexX);
-		if(map[map_index-130]!=0 && player.speedY <= 0){
-			if(i==1){
-				i++;
-				uppercollisionY = ((Math.floor(player.y/32))*32)-5 ;
-			}
-			if(player.y < uppercollisionY){
-				player.y = player.previousY;
-			}
-		}
-
-		/// check left collision
-		indexX = Math.floor((player.x)/ 32);
-		indexY = Math.floor((player.y + 18) / 32);
-		map_index = (indexY*130)+(indexX);
-		if(map[map_index]!=0){
-			player.x = player.previousX;
-			player.speedX = 0;
-		}
-		
-	}
-
 
 	//function for drawing background objects
-	function init(){
+	function initialdraw(){
 		// canvas.style.backgrounImage = sky;
 		for(var i=0; i<1950; i++){
 			let x = (i%130);
@@ -452,6 +339,11 @@ function startGame(){
 					context.drawImage(tiles, 16, 8*16, 16, 16
 		 									, x*32, y*32, 32, 32);
 					break;
+
+				case 11 : //used coin brick
+					context.drawImage(tiles, 48, 0, 16, 16
+		 									, x*32, y*32, 32, 32);
+					break;
 			}
 		}
 	}
@@ -465,4 +357,91 @@ function startGame(){
 		// console.log(camera.x);
 	}
 
+	////////////////////////////
+	/////COLLISION FUNCTION/////
+	////////////////////////////
+	function collisionCheck(){
+		///////////////////////
+		//check right collision
+		indexX = Math.floor((player.x+32)/ 32);
+		indexY = Math.floor((player.y+20)/ 32);
+		map_index = (indexY*130)+(indexX);
+		if(map[map_index]!=0 && map[map_index]!=5){
+			player.x = player.previousX;
+			player.speedX = 0;
+		}
+
+		//////////////////////////////////
+		///all posible bottom collision///
+		//////////////////////////////////
+		if(player.x > player.previousX){///right moving bottom collision
+			indexX = Math.floor((player.x+10)/ 32);
+			indexY = Math.floor((player.y+18)/ 32);
+			map_index = (indexY*130)+(indexX);
+			if(map[map_index+130]!=0){
+				player.y = player.previousY;
+				player.jumping = false;
+				player.speedY = 0;
+			}
+			///////can change player.speedX condition with player.x < or > player.previousX
+		}else if(player.speedX < -0.1){////left moving bottom collision
+			indexX = Math.ceil((player.x-10)/ 32);
+			indexY = Math.floor((player.y+18)/ 32);
+			map_index = (indexY*130)+(indexX);
+			if(map[map_index+130]!=0){
+				player.y = player.previousY;
+				player.jumping = false;
+				player.speedY = 0;
+			}
+		}else {
+			////check standing bottom collision
+			indexX = Math.floor((player.x)/ 32);
+			indexY = Math.floor((player.y+18)/ 32);
+			map_index = (indexY*130)+(indexX);
+			if(map[map_index+130]!=0){
+				player.y = player.previousY;
+				player.jumping = false;
+				player.speedY = 0;
+			}
+		}
+		////check up collision
+		indexX = Math.ceil((player.x-10)/ 32);
+		indexY = Math.floor((player.y+18)/ 32);
+		map_index = (indexY*130)+(indexX);
+		if(map[map_index-130]!=0 && player.speedY <= 0){
+			if(i==1){
+				i++;
+				uppercollisionY = ((Math.floor(player.y/32))*32)-5 ;
+			}
+			if(player.y < uppercollisionY){
+				player.y = player.previousY;
+				if(map[map_index-130]==2){
+					score++;
+					//////add coin collection sound here
+					///change the block into normal block
+					let m = map_index-130;
+					context.drawImage(tiles, 48, 0, 16, 16
+				 									, (m%130)*32, (Math.floor(m/130))*32, 32, 32);
+					map[m] = 11;
+					//coinAnimate();
+				}
+			}
+		}
+
+		/// check left collision
+		indexX = Math.floor((player.x)/ 32);
+		indexY = Math.floor((player.y + 18) / 32);
+		map_index = (indexY*130)+(indexX);
+		if(map[map_index]!=0){
+			player.x = player.previousX;
+			player.speedX = 0;
+		}
+		
+	}
+
+
 }
+
+
+
+
