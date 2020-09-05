@@ -1,20 +1,23 @@
 @font-face {
 	font-family: mario;
 	src: url('SuperMario256.ttf');
-  }
+}
+
 body{
 	background: #000;
 	font-family: mario;
 	margin: 10px;
 	text-align: center;
 }
+
 #start-screen{
 	background: url('../img/bg.png');
 	width: 1200px;
 	height: 500px;
 	margin: auto;
-	margin-top: 100px;
+	margin-top: 80px;
 }
+
 .header{
 	font-size: 50px;
 	padding-top: 10px;
@@ -22,12 +25,12 @@ body{
 	color:#e03d3d ;
 	filter: drop-shadow(15px 5px 4px #BA7A6D);
 }
+
 #logo{
 	height: 100px;
-	width: 100px;
-	
-	
+	width: 100px;	
 }
+
 #start-btn{
 	box-shadow: 10px 10px 5px #BA7A6D;
 	font-family: mario;
@@ -38,7 +41,17 @@ body{
 	width: 200px;
 	background-color:#e03d3d;
 }
+
 #instructions{
 	color: #fff;
+	display: none;
+}
+
+#gameScore{
+	color: #fff;
+	font-size: 20px;
+	height: 10px;
+	text-align: left;
+	margin: 0 0 15px 170px;
 	display: none;
 }
