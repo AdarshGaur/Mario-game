@@ -358,6 +358,7 @@ function startGame(){
 					break;
 			}
 		}
+
 		var clouds = new Image();
 		clouds.src = '../img/cloud.svg';
 		context.drawImage(clouds,10,10,100,80);
