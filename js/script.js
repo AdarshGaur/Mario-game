@@ -19,6 +19,7 @@ var player = {
 	previousY: 292
 }
 
+///////////////
 var uppercollisionY;
 var i=1;
 var score = 0;
@@ -33,7 +34,9 @@ var map_index = 0;
 ///for storing key presses
 var moves = [];
 
-///////LAYOUT////
+////////////////////
+///////LAYOUT///////
+///////////////////
 // width or columns = 130;
 //height or rows = 15;
 var map =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -107,7 +110,7 @@ function startGame(){
 	var marioImage = new Image();
 	marioImage.src = '../img/mario-sprites.png';
 	marioImage.onload = function(){
-		mariodraw(0, 0, 30, 50, player.x, player.y, 30, 50);
+		//mariodraw(0, 0, 30, 50, player.x, player.y, 30, 50);
 	}
 
 	function updateGameArena(){
