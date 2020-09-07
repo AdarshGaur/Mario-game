@@ -361,6 +361,18 @@ function startGame(){
 					break;
 			}
 		}
+
+		var clouds = new Image();
+		clouds.src = '../img/cloud.svg';
+		context.drawImage(clouds,10,10,100,80);
+		context.drawImage(clouds,500,60,140,60);
+		context.drawImage(clouds,1000,40,120,70);
+		context.drawImage(clouds,1500,70,110,90);
+		context.drawImage(clouds,2000,10,100,80);
+		context.drawImage(clouds,2500,60,130,80);
+		context.drawImage(clouds,3000,20,110,80);
+		context.drawImage(clouds,3500,40,100,80);
+		context.drawImage(clouds,4000,10,120,70);
 	}
 
 
